@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="pt_BR">
+
+<head>
+    <!-- Tags meta necessárias -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- CSS personalizado -->
+    <style>
+        /* Estilização da barra de navegação, com ajuste de z-index */
+        
+        nav ul li {
+            position: relative;
+            z-index: 3;
+            /* Garante que o navbar fique acima da sobreposição */
+        }
+        /* Estilização do contêiner principal */
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        /* Estilo do cabeçalho */
+        
+        .header {
+            background: linear-gradient(90deg, #98bfcf, #d5a688);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            text-align: center;
+            font-size: 3em;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .header h2 {
+            text-align: center;
+            font-size: 2em;
+            font-style: italic;
+            margin-top: 1px;
+        }
+        /* Estilo do título principal */
+        
+        .main-title {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #333;
+        }
+        /* Seção do Horário */
+        
+        .time-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .time-card {
+            background-color: #c2855a;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            width: 250px;
+            height: 70px;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: center;
+            align-items: center;
+            margin: 0 2px;
+            border-radius: 10px;
+        }
+        
+        .time-card span {
+            font-size: 2em;
+            font-weight: normal;
+        }
+        
+        .time-card1 {
+            background-color: #c2855a;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            width: 250px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 2px;
+            border-radius: 10px;
+        }
+        
+        .time-card1 span {
+            font-size: 0.5em;
+            font-weight: normal;
+        }
+        /* Seção Controle das Demandas */
+        
+        .demand-control {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 900px;
+        }
+        
+        .demand-control h3 {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .demand-menu {
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        /* Estilo dos cartões de demanda */
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 500px;
+        }
+        
+        .demand-card {
+            background-color: #b6b09d;
+            padding: 30px;
+            border-radius: 5px;
+            color: #333;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            max-width: 250px;
+        }
+        
+        .demand-card i {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra de navegação com z-index mais alto -->
+    <nav>
+        {% include "navbar.html" %}
+    </nav>
+
+
+    <!-- Cabeçalho -->
+    <div class="header">
+        <h2 id="title-top">
+            Gerenciador de Tarefas
+
+        </h2>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <!-- Mensagens de alerta -->
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %} {% endif %}
+
+        <!-- Bloco de conteúdo dinâmico -->
+        <div class="card p-4 mt-4">
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+
+
+
+
+    <!-- Script para Atualizar o Horário -->
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12; // Ajusta o formato de 12 horas
+            const dayOfWeek = now.toLocaleString('pt-BR', {
+                weekday: 'long'
+            }); // Nome do dia em português
+
+            // Atualiza o conteúdo dos elementos
+            document.getElementById('hours').innerHTML = `
+                ${displayHours < 10 ? '0' : ''}${displayHours}
+                <span>${ampm}</span>
+            `;
+            document.getElementById('day').innerHTML = `
+                ${dayOfWeek}
+                <span>${minutes < 10 ? '0' : ''}${minutes}</span>
+            `;
+        }
+
+        // Atualiza o relógio a cada segundo
+        setInterval(updateClock, 1000);
+
+        // Chama a função quando a página carrega
+        updateClock();
+    </script>
+
+    <!-- Rodapé -->
+    <footer>
+        <!-- Seção de Horário -->
+        <div class="time-section">
+            <div class="time-card1" id="hours">
+                --<span>AM</span>
+            </div>
+            <div class="time-card" id="day">
+                --<span>Day</span>
+            </div>
+        </div>
+        <p class="main-title">&copy; 2024 Gestão de Tarefas. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- JavaScript do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+<script>
+    let titleText = "Seu Gerenciador de Tarefas!";
+    let index = 0;
+
+    function animateTitle() {
+        document.title = titleText.slice(0, index);
+        index = (index + 1) % (titleText.length + 1); // Reseta o índice ao final do texto
+    }
+
+    setInterval(animateTitle, 200); // Anima o título a cada 200 ms
+</script>
+
+
+</html>

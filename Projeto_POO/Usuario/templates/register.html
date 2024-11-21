@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+
+<form method="post" action="{% url 'register' %}">
+    {% csrf_token %} {% if form.errors %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Seu Formulário possui erros {% for field in form %} {% if field.errors %} {{ field.errorrs }} {% endif %} {% endfor %}
+    </div>
+    {% endif %} {{ form.as_p }}
+    <br>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+{% endblock %}

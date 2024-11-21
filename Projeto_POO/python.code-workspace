@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../python"
+		},
+		{
+			"path": "../Django"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"powershell.cwd": "Django"
+	}
+}

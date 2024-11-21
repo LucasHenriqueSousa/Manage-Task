@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Página Personalizada</title>
+</head>
+
+<body>
+    <h1 id="tituloPrincipal">Bem-vindo!</h1>
+    <button onclick="mudarTitulo()">Mudar Título</button>
+
+    <script>
+        function mudarTitulo() {
+            let titulo = document.getElementById("tituloPrincipal");
+            titulo.innerHTML = "Título Alterado!";
+            titulo.style.color = "blue";
+            titulo.style.fontSize = "3em";
+        }
+    </script>
+</body>
+<script>
+    let titleText = "Bem-vindo ao Meu Site!";
+    let index = 0;
+
+    function animateTitle() {
+        document.title = titleText.slice(0, index);
+        index = (index + 1) % (titleText.length + 1); // Reseta o índice ao final do texto
+    }
+
+    setInterval(animateTitle, 200); // Anima o título a cada 200 ms
+</script>
+
+</html>

@@ -1,0 +1,53 @@
+ {% extends "base.html" %}{% load humanize %} {% block content %}
+
+
+<div class="container">
+    <h1>Lista de Tarefas</h1>
+    <form method="get" action="{% url 'listar_tarefas' %}" class="mb-3">
+        <label for="status">Filtrar por Status:</label>
+    <div>
+        <select name="status" id="status" class="form-control">
+            <option value="">Todas</option>
+            <option value="1">Feitas</option>
+            <option value="0">Não Feitas</option>
+        </select>
+    </div>
+        <button type="submit" class="btn btn-primary mt-2">Aplicar Filtro</button>
+    </form>
+
+    <a class="btn btn-primary" href="{% url 'criar_tarefa' %}">Nova Tarefa</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Data de Criação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarefa in tarefas %}
+            <tr>
+                <td>{{ tarefa.0 }}</td>
+                <td>{{ tarefa.1 }}</td>
+                <td>
+                    {% if tarefa.2 == 1 %} ✔ {% else %} ✖ {% endif %}
+                </td>
+                <td>{{ tarefa.3|slice:":19" }}</td>
+                <!-- Exibe a data de criação -->
+                <td>
+                    <a class="btn btn-warning" href="{% url 'atualizar_tarefa' tarefa.0 %}">Editar</a>
+                    <a class="btn btn-danger" href="{% url 'deletar_tarefa' tarefa.0 %}">Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+<!-- bloco do status de tarefas -->
+{% block content%}
+
+<h1>Status das Tarefas</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome da Tarefa</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tarefa in tarefas_status %}
+        <tr>
+            <td>{{ tarefa.id }}</td>
+            <td>{{ tarefa.nome }}</td>
+            <td>{{ tarefa.status }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div>
+    <a class="btn btn-primary" href="{% url 'listar_tarefas' %}">Voltar</a>
+</div>
+{% endblock %}

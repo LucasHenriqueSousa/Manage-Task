@@ -1,0 +1,26 @@
+ {% extends 'base.html'%}
+<!-- bloco do criar tarefas -->
+{% block content %}
+<div class="container mt-5">
+    <h1>Criar Tarefa</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nome_tarefa" class="form-label">Nome da Tarefa</label>
+            <input type="text" class="form-control" id="nome_tarefa" name="nome_tarefa" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Status da Tarefa</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="feita_sim" name="feita" value="1">
+                <label class="form-check-label" for="feita_sim">✔</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="feita_nao" name="feita" value="0">
+                <label class="form-check-label" for="feita_nao">✖</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </form>
+</div>
+{% endblock content %}
